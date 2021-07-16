@@ -1186,7 +1186,7 @@ export class Player extends EventEmitter {
             return void this.emit(PlayerEvents.QUEUE_END, queue.firstMessage, queue);
         }
 
-        if (queue.autoPlay && !queue.repeatMode && !firstPlay) {
+        if (queue.autoPlay && queue.tracks.length === 1 && !queue.repeatMode && !firstPlay) {
             const oldTrack = queue.tracks.shift();
 
             const info = ['youtube', 'spotify'].includes(oldTrack?.raw.source) ? await ytdl.getInfo((oldTrack as any).backupLink ?? oldTrack.url).catch((e) => {}) : null;
@@ -1205,7 +1205,7 @@ export class Player extends EventEmitter {
                     queue.previousTracks.push(oldTrack);
                 }
             }
-        } else if (!queue.autoPlay && !queue.repeatMode && !firstPlay) {
+        } else if ((!queue.autoPlay || queue.tracks.length > 1) && !queue.repeatMode && !firstPlay) {
             const oldTrack = queue.tracks.shift();
             if (queue.loopMode) queue.tracks.push(oldTrack);
             queue.previousTracks.push(oldTrack);
