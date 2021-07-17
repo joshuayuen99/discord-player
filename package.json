@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "test": "yarn build && cd test && node index.js",
-    "prepare": "npm run build",
+    "postinstall": "npx tsc",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
